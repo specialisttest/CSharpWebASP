@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebHello", "WebHello.csproj", "{42C3BC3D-45F2-48A4-A44E-67DBAA20912F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebHello", "WebHello\WebHello.csproj", "{42C3BC3D-45F2-48A4-A44E-67DBAA20912F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebHelloVSC", "..\WebHelloVSC\WebHelloVSC.csproj", "{74488620-A4B5-43F7-A0A1-909E63344537}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebHelloVSC", "WebHelloVSC\WebHelloVSC.csproj", "{74488620-A4B5-43F7-A0A1-909E63344537}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebRouteEndpoints", "WebRouteEndpoints\WebRouteEndpoints.csproj", "{7ED8E858-0487-4ADC-A85C-459B150AF292}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{74488620-A4B5-43F7-A0A1-909E63344537}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74488620-A4B5-43F7-A0A1-909E63344537}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74488620-A4B5-43F7-A0A1-909E63344537}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7ED8E858-0487-4ADC-A85C-459B150AF292}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7ED8E858-0487-4ADC-A85C-459B150AF292}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7ED8E858-0487-4ADC-A85C-459B150AF292}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7ED8E858-0487-4ADC-A85C-459B150AF292}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
