@@ -38,11 +38,17 @@ namespace WebHello
                     await context.Response.WriteAsJsonAsync(new { Name = "Sergey", Age = 46}));
             });
 
+            app.Use(async(context, next) =>
+            {
+                context.Response.ContentType = "text/html";
+                await next();
+            });
+
             app.Use(async (context, next) => { // First Middleware
                 if (context.Request.Method == HttpMethods.Get)
                 {
-                    //await context.Response.WriteAsync("start first Middleware");
-                    throw new Exception();
+                    await context.Response.WriteAsync("start first Middleware");
+                    //throw new Exception();
                 }
                 await next();
                 await context.Response.WriteAsync("end first Middleware");
@@ -91,7 +97,7 @@ namespace WebHello
             // Third  middleware (terminal)
             app.Run(async context => {
                 //context.Response.Redirect
-                await context.Response.WriteAsync("Hello from Run(...)");
+                await context.Response.WriteAsync("<h1>Hello from Run(...)</h1>");
             });
 
 
