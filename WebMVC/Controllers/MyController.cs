@@ -10,7 +10,7 @@ namespace WebMVC.Controllers
     [MyActionFilter]
     public class MyController : Controller
     {
-        
+
         [HttpGet]
         //[HttpPost]
         public IActionResult Index()
@@ -49,16 +49,11 @@ namespace WebMVC.Controllers
         {
             return this.Json(p);
         }
-        
+
         public IActionResult Specialist()
         {
             //this.RedirectPermanent
             return this.Redirect("http://www.specialist.ru");
-        }
-
-        public IActionResult ToInfo()
-        {
-            return this.RedirectToAction("Info");
         }
 
         public IActionResult Secure()
@@ -67,7 +62,7 @@ namespace WebMVC.Controllers
             return Unauthorized("Доступ запрещен");
         }
 
-        public IActionResult GetFile ()
+        public IActionResult GetFile()
         {
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "test.txt");
 
@@ -80,8 +75,20 @@ namespace WebMVC.Controllers
             return $"Data from query name: {name} age: {age}";
         }
 
-        public string Info()
+        [TempData]
+        public string ToInfoData {get;set;}
+        
+        public IActionResult ToInfo()
         {
+            //TempData["ToInfoData"] = "Data from ToInfo action";
+            this.ToInfoData = "Data from ToInfo action";
+            return this.RedirectToAction("Info");
+        }
+
+        public ViewResult Info()
+        {
+            ViewBag.ToInfoData = this.ToInfoData;
+            ViewBag.InfoData = "Data from Info action";
             //HttpContext.Request
             //HttpContext.Response
             //this.ModelState
@@ -96,7 +103,8 @@ namespace WebMVC.Controllers
                 sb.Append($"{header.Key} : {header.Value}\n");
 
 
-            return sb.ToString();
+            ViewBag.MainStr = sb.ToString();
+            return View();
         
         }
 

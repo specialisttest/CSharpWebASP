@@ -21,7 +21,8 @@ namespace WebHello
                 app.UseExceptionHandler("/error.html");
             }
 
-                app.UseStaticFiles(); // wwwroot
+            app.UseStaticFiles(); // wwwroot
+
             // MyStatic
             app.UseStaticFiles(new StaticFileOptions { 
                 FileProvider = new PhysicalFileProvider(

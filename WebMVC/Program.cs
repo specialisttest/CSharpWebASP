@@ -22,6 +22,12 @@ namespace WebMVC
 
             //app.UseAuthorization();
 
+            app.MapControllerRoute(
+                name: "search",
+                pattern: "search/{search}", 
+                defaults: new { controller = "Course", action = "Search"});
+
+
             //controller/action/
             //My/Index
             app.MapControllerRoute(
