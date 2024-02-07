@@ -25,12 +25,34 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Course" asp-action="Index">Get Courses Json</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Course" asp-action="List">Get Courses List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Course" asp-action="Search" asp-route-search="Intro">Search Intro courses</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Hello" asp-action="Index">Hello page</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Register" asp-action="Index">Registration page</a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
+        <h2>
+@inject IHello helloSrv
+@helloSrv.GetHelloString("")
+        </h2>
     </header>
     <div class="container">
+        <environment names="Development">
+            <h2>This is development mode</h2>
+        </environment>
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
