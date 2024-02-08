@@ -1,3 +1,4 @@
+using WebMVC.Models;
 using WebMVC.Services;
 
 namespace WebMVC
@@ -9,6 +10,7 @@ namespace WebMVC
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddSingleton<IHello, HelloImpl>();
+            builder.Services.AddSingleton<ICourseData, CourseDataImpl>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -20,9 +22,12 @@ namespace WebMVC
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            // by default
             //else
             //    app.UseDeveloperExceptionPage();
 
+            //app.UseStatusCodePages();
+            //app.UseStatusCodePagesWithReExecute("/Home/ErrorEx?statuscode={0}");
 
 
             app.UseStaticFiles();
@@ -42,6 +47,7 @@ namespace WebMVC
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
             app.Run();
         }
