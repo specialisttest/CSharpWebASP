@@ -13,12 +13,20 @@ namespace WebEFC
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddMemoryCache();
+
+            builder.Services.AddOutputCache();
+
+
             // Add services to the container.
             builder.Services.AddSqlServer<ApplicationContext>(
                 config.GetConnectionString("DefaultConnection"));
 
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+
 
             var app = builder.Build();
 
@@ -28,6 +36,8 @@ namespace WebEFC
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseStaticFiles();
+
+            app.UseOutputCache();
 
             app.UseRouting();
 

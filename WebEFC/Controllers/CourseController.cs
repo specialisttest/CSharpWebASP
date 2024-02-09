@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using WebEFC.Models;
 
 namespace WebEFC.Controllers
@@ -12,13 +14,16 @@ namespace WebEFC.Controllers
     public class CourseController : Controller
     {
         private readonly ApplicationContext _context;
+        private IMemoryCache cache;
 
-        public CourseController(ApplicationContext context)
+        public CourseController(ApplicationContext context, IMemoryCache cache)
         {
             _context = context;
+            this.cache = cache;
         }
 
         // GET: Course
+        [OutputCache(Duration = 20)]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Courses.ToListAsync());
@@ -32,12 +37,19 @@ namespace WebEFC.Controllers
                 return NotFound();
             }
 
-            var course = await _context.Courses
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (course == null)
+            Course course;
+            if (!cache.TryGetValue(id, out course))
             {
-                return NotFound();
+                course = await _context.Courses
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (course == null)
+                    return NotFound();
+                Console.WriteLine($"Course {course.Id} loaded from database");
+                cache.Set(course.Id, course,
+                    new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)));
             }
+            else
+                Console.WriteLine($"Course {course.Id} get from cache");
 
             return View(course);
         }
@@ -65,8 +77,11 @@ namespace WebEFC.Controllers
         }
 
         // GET: Course/Edit/5
+        [OutputCache(Duration = 20, VaryByRouteValueNames =new string[]{"id"})]
         public async Task<IActionResult> Edit(int? id)
         {
+            //this.HttpContext.Response.Headers.
+            
             if (id == null)
             {
                 return NotFound();

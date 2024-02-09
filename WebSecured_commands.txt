@@ -1,0 +1,93 @@
+
+dotnet new mvc --auth Individual -o WebSecured
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
+dotnet aspnet-codegenerator identity -dc WebSecured.Data.ApplicationDbContext --files "Account.Register;Account.Login;Account.Logout;Account.RegisterConfirmation" --useSqLite
+
+https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-8.0&tabs=netcore-cli
+
+-------------------------------------------
+DataProtection:
+-------------------------------------------
+dotnet new console -o DataProt
+dotnet add package Microsoft.Extensions.DependencyInjection
+dotnet add package Microsoft.AspNetCore.DataProtection
+
+using System;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.DependencyInjection;
+
+public class DIClass {
+    private IDataProtectionProvider provider;
+
+    public DIClass(IDataProtectionProvider provider) => this.provider=provider;
+    public IDataProtector GetProtector(string []purpose) => provider.CreateProtector(purpose);
+}
+
+public class Start {
+    public static void Main() {
+        string test = "some text to protect";
+
+        var services = new ServiceCollection();
+        services.AddDataProtection();
+        var provider = services.BuildServiceProvider();
+
+        var instance  = ActivatorUtilities.CreateInstance<DIClass>(provider);
+        var protector = instance.GetProtector(new string[]{"abcd", "a2"});
+
+        string save = protector.Protect(test);
+        Console.WriteLine(save);
+        Console.WriteLine(protector.Unprotect(save));
+    }
+}
+
+----------------------------------------------
+Secrets Management
+----------------------------------------------
+Never store passwords or other sensitive data in source code. Production secrets
+shouldn't be used for development or test. Secrets shouldn't be deployed with the app.
+
+dotnet user-secrets init
+dotnet user-secrets set "Key_ONE" "secret password"
+dotnet user-secrets set "Key_TWO" "secret name_login"
+
+dotnet add package Microsoft.Extensions.DependencyInjection
+dotnet add package Microsoft.Extensions.Configuration
+dotnet add package Microsoft.Extensions.Hosting
+
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+using IHost host = Host.CreateDefaultBuilder(args).UseEnvironment("Development").Build();
+
+IConfiguration config = host.Services.GetRequiredService<IConfiguration>();
+
+string value_1 = config["Key_ONE"];
+string value_2 = config.GetValue<string>("Key_TWO");
+
+Console.WriteLine($"KeyOne = {value_1}");
+Console.WriteLine($"KeyTwo = {value_2}");
+
+//await host.RunAsync();
+
+
+dotnet user-secrets list
+dotnet user-secrets remove "Key_ONE"
+dotnet user-secrets clear
+
+public class IndexModel : PageModel
+{
+    private readonly IConfiguration _config;
+
+    public IndexModel(IConfiguration config)
+    {
+        _config = config;
+    }
+
+    public void OnGet()
+    {
+        var moviesApiKey = _config["Movies:ServiceApiKey"];
+
+        // call Movies service with the API key
+    }
+}

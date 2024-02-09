@@ -23,6 +23,7 @@ namespace WebEFC.Controllers
             return View();
         }
 
+        //Cache-control: max-age=0;no-cache;no-store
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
