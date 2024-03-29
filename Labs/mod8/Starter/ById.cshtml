@@ -1,0 +1,30 @@
+@{
+    ViewData["Title"] = "Coin Page";
+    @model  Coin
+}
+
+<div class="text-center">
+  <h1 class="display-4">Learn My Coins Collection</h1>
+     <h6 class="bg-primary text-white text-center m-2 p-2">My Coins Collection</h6>
+     <div class="m-2">
+	    <table class="table table-sm table-striped table-bordered">
+	      <tbody>
+			<tr> <th>Country</th> 
+				 <th>Year</th>
+				 <th>Metal</th>
+				 <th>Face</th>                 
+				 <th>Denomination</th>
+				 <th>Comment</th>
+			</tr>
+	        <tr>
+						<td>@Model.Country</td>
+						<td>@Model.Year</td>
+						<td>@Model.Metal</td>
+                        <td><img src="@Model.Face" asp-append-version="true"  width="300" height="350"/></td>
+						<td>@Model.Denomination</td>
+						<td>@Model.Comment</td>
+	        </tr>
+	       </tbody>
+	    </table>
+     </div>
+</div>
